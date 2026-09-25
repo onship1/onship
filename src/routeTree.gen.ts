@@ -13,6 +13,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAccueilRouteImport } from './routes/_authenticated/accueil'
+import { Route as AuthenticatedPrestataireRouteImport } from './routes/_authenticated/prestataire'
+import { Route as AuthenticatedProfilRouteImport } from './routes/_authenticated/profil'
+import { Route as AuthenticatedDemandesIndexRouteImport } from './routes/_authenticated/demandes.index'
+import { Route as AuthenticatedDemandesNouvelleRouteImport } from './routes/_authenticated/demandes.nouvelle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -33,16 +37,47 @@ const AuthenticatedAccueilRoute = AuthenticatedAccueilRouteImport.update({
   path: '/accueil',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPrestataireRoute =
+  AuthenticatedPrestataireRouteImport.update({
+    id: '/prestataire',
+    path: '/prestataire',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProfilRoute = AuthenticatedProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDemandesIndexRoute =
+  AuthenticatedDemandesIndexRouteImport.update({
+    id: '/demandes/',
+    path: '/demandes/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDemandesNouvelleRoute =
+  AuthenticatedDemandesNouvelleRouteImport.update({
+    id: '/demandes/nouvelle',
+    path: '/demandes/nouvelle',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/accueil': typeof AuthenticatedAccueilRoute
+  '/prestataire': typeof AuthenticatedPrestataireRoute
+  '/profil': typeof AuthenticatedProfilRoute
+  '/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
+  '/demandes/': typeof AuthenticatedDemandesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/accueil': typeof AuthenticatedAccueilRoute
+  '/prestataire': typeof AuthenticatedPrestataireRoute
+  '/profil': typeof AuthenticatedProfilRoute
+  '/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
+  '/demandes': typeof AuthenticatedDemandesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -50,13 +85,40 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/accueil': typeof AuthenticatedAccueilRoute
+  '/_authenticated/prestataire': typeof AuthenticatedPrestataireRoute
+  '/_authenticated/profil': typeof AuthenticatedProfilRoute
+  '/_authenticated/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
+  '/_authenticated/demandes/': typeof AuthenticatedDemandesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/accueil'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/accueil'
+    | '/prestataire'
+    | '/profil'
+    | '/demandes/nouvelle'
+    | '/demandes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/accueil'
-  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/accueil'
+  to:
+    | '/'
+    | '/auth'
+    | '/accueil'
+    | '/prestataire'
+    | '/profil'
+    | '/demandes/nouvelle'
+    | '/demandes'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/accueil'
+    | '/_authenticated/prestataire'
+    | '/_authenticated/profil'
+    | '/_authenticated/demandes/nouvelle'
+    | '/_authenticated/demandes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -95,15 +157,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccueilRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/prestataire': {
+      id: '/_authenticated/prestataire'
+      path: '/prestataire'
+      fullPath: '/prestataire'
+      preLoaderRoute: typeof AuthenticatedPrestataireRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profil': {
+      id: '/_authenticated/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof AuthenticatedProfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/demandes/': {
+      id: '/_authenticated/demandes/'
+      path: '/demandes'
+      fullPath: '/demandes/'
+      preLoaderRoute: typeof AuthenticatedDemandesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/demandes/nouvelle': {
+      id: '/_authenticated/demandes/nouvelle'
+      path: '/demandes/nouvelle'
+      fullPath: '/demandes/nouvelle'
+      preLoaderRoute: typeof AuthenticatedDemandesNouvelleRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccueilRoute: typeof AuthenticatedAccueilRoute
+  AuthenticatedPrestataireRoute: typeof AuthenticatedPrestataireRoute
+  AuthenticatedProfilRoute: typeof AuthenticatedProfilRoute
+  AuthenticatedDemandesNouvelleRoute: typeof AuthenticatedDemandesNouvelleRoute
+  AuthenticatedDemandesIndexRoute: typeof AuthenticatedDemandesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccueilRoute: AuthenticatedAccueilRoute,
+  AuthenticatedPrestataireRoute: AuthenticatedPrestataireRoute,
+  AuthenticatedProfilRoute: AuthenticatedProfilRoute,
+  AuthenticatedDemandesNouvelleRoute: AuthenticatedDemandesNouvelleRoute,
+  AuthenticatedDemandesIndexRoute: AuthenticatedDemandesIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
