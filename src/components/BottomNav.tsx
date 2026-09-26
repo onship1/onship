@@ -22,8 +22,9 @@ export function BottomNav() {
         ];
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur">
-      <div className="app-shell flex items-stretch justify-between py-2">
+    <nav className="fixed inset-x-0 bottom-0 z-40 pb-3">
+      <div className="app-shell">
+      <div className="flex items-stretch justify-between rounded-full bg-ink p-1.5 text-ink-foreground shadow-float">
         {items.map((item) => {
           const active = pathname === item.to;
           const Icon = item.icon;
@@ -32,8 +33,8 @@ export function BottomNav() {
               key={item.to}
               to={item.to}
               className={cn(
-                "flex flex-1 flex-col items-center gap-1 rounded-xl px-2 py-1.5 text-[11px] font-medium transition-colors",
-                active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+                "flex flex-1 flex-col items-center gap-0.5 rounded-full px-2 py-2 text-[11px] font-semibold transition-colors",
+                active ? "bg-primary text-primary-foreground" : "text-ink-foreground/60 hover:text-ink-foreground",
               )}
             >
               <Icon className={cn("size-5", active && "stroke-[2.4]")} />
@@ -41,6 +42,7 @@ export function BottomNav() {
             </Link>
           );
         })}
+      </div>
       </div>
     </nav>
   );

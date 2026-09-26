@@ -32,59 +32,62 @@ const steps = [
 
 function Landing() {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="bg-gradient-brand pb-16 pt-8 text-primary-foreground">
-        <div className="app-shell">
-          <p className="font-display text-xl font-bold">Onship</p>
-          <h1 className="mt-6 text-4xl font-bold leading-tight">
-            Un service, un prix négocié, près de vous.
-          </h1>
-          <p className="mt-3 text-sm leading-relaxed opacity-90">
-            Publiez votre demande en 3 taps. Les prestataires disponibles autour de vous font leurs
-            offres, vous choisissez.
-          </p>
-          <div className="mt-6 flex gap-3">
-            <Button asChild variant="secondary" className="h-12 flex-1 rounded-full text-base font-semibold">
-              <Link to="/auth">Commencer</Link>
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <div className="app-shell -mt-10">
+    <div className="min-h-screen bg-ink text-ink-foreground">
+      <header className="relative">
         <img
           src={heroImage}
           alt="Prestataires de services : agent d'entretien, plombier et coiffeuse"
           width={1024}
           height={1280}
-          className="w-full rounded-3xl object-cover shadow-float"
+          className="h-[58vh] w-full object-cover"
         />
-      </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-transparent to-ink" />
+        <div className="app-shell absolute inset-x-0 top-0 flex items-center justify-between pt-6">
+          <div className="flex items-center gap-2">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-primary font-display text-lg font-bold text-primary-foreground">
+              O
+            </span>
+            <span className="font-display text-xl font-bold">onship</span>
+          </div>
+          <Link to="/auth" className="rounded-full bg-ink/70 px-4 py-2 text-sm font-semibold backdrop-blur">
+            Connexion
+          </Link>
+        </div>
+      </header>
 
-      <section className="app-shell py-10">
-        <h2 className="text-xl font-bold">Comment ça marche</h2>
-        <div className="mt-4 space-y-3">
-          {steps.map((step) => (
-            <div key={step.title} className="flex gap-4 rounded-2xl bg-card p-4 shadow-card">
-              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-surface text-foreground">
-                <step.icon className="size-5" />
+      <section className="app-shell -mt-24 relative pb-10">
+        <h1 className="text-[2.6rem] font-bold leading-[1.05]">
+          Votre service.
+          <br />
+          <span className="text-primary">Votre prix.</span>
+        </h1>
+        <p className="mt-3 text-base text-ink-foreground/70">
+          Publiez votre besoin, les prestataires proches vous font leurs offres. Vous choisissez.
+        </p>
+        <Button asChild className="mt-6 h-14 w-full rounded-2xl text-base font-bold">
+          <Link to="/auth">Commencer</Link>
+        </Button>
+
+        <div className="mt-8 grid grid-cols-2 gap-3">
+          {steps.map((step, i) => (
+            <div key={step.title} className="rounded-2xl bg-ink-foreground/[0.06] p-4">
+              <div className="flex items-center justify-between">
+                <step.icon className="size-5 text-primary" />
+                <span className="font-display text-xs text-ink-foreground/40">0{i + 1}</span>
               </div>
-              <div>
-                <p className="font-semibold">{step.title}</p>
-                <p className="text-sm text-muted-foreground">{step.text}</p>
-              </div>
+              <p className="mt-3 text-sm font-semibold">{step.title}</p>
+              <p className="mt-1 text-xs text-ink-foreground/60">{step.text}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-8 rounded-3xl bg-surface p-5">
-          <p className="font-display text-lg font-semibold">Vous êtes prestataire ?</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Activez le mode prestataire depuis le même compte, recevez les demandes proches et
-            payez uniquement en crédits — aucune commission sur vos prestations.
+        <div className="mt-6 rounded-2xl bg-primary p-5 text-primary-foreground">
+          <p className="font-display text-lg font-bold">Vous êtes prestataire ?</p>
+          <p className="mt-1 text-sm opacity-80">
+            Recevez les demandes proches, payez en crédits — aucune commission sur vos prestations.
           </p>
-          <Button asChild className="mt-4 h-11 w-full rounded-full">
-            <Link to="/auth">Créer mon compte</Link>
+          <Button asChild variant="secondary" className="mt-4 h-11 w-full rounded-xl bg-ink text-ink-foreground hover:bg-ink/90">
+            <Link to="/auth">Devenir prestataire</Link>
           </Button>
         </div>
       </section>
