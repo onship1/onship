@@ -26,9 +26,13 @@ export const updateMyProfile = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => updateSchema.parse(input))
   .handler(async ({ data, context }) => {
+    const patch: Record<string, string> = { updated_at: new Date().toISOString() };
+    for (const [key, value] of Object.entries(data)) {
+      if (value !== undefined) patch[key] = value;
+    }
     const { error } = await context.supabase
       .from("profiles")
-      .update({ ...data, updated_at: new Date().toISOString() })
+      .update(patch as never)
       .eq("id", context.userId);
 
     if (error) throw new Error(error.message);
@@ -56,8 +60,9 @@ export const getMyProviderProfile = createServerFn({ method: "GET" })
         .eq("provider_id", provider.id),
     ]);
 
+    const { location: _location, ...providerData } = provider;
     return {
-      provider,
+      provider: providerData,
       wallet: wallet ?? null,
       categories: (categories ?? []).map((row) => ({
         id: row.category_id,
@@ -152,19 +157,25 @@ export const updateAvailability = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => availabilitySchema.parse(input))
   .handler(async ({ data, context }) => {
-    const patch: Record<string, unknown> = {
+    const patch: {
+      availability_status: "offline" | "available" | "busy";
+      updated_at: string;
+      latitude?: number;
+      longitude?: number;
+      location?: string;
+    } = {
       availability_status: data.availability_status,
       updated_at: new Date().toISOString(),
     };
     if (data.latitude !== undefined && data.longitude !== undefined) {
-      patch["latitude"] = data.latitude;
-      patch["longitude"] = data.longitude;
-      patch["location"] = `SRID=4326;POINT(${data.longitude} ${data.latitude})`;
+      patch.latitude = data.latitude;
+      patch.longitude = data.longitude;
+      patch.location = `SRID=4326;POINT(${data.longitude} ${data.latitude})`;
     }
 
     const { error } = await context.supabase
       .from("provider_profiles")
-      .update(patch)
+      .update(patch as never)
       .eq("user_id", context.userId);
 
     if (error) throw new Error(error.message);
