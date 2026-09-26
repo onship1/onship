@@ -71,7 +71,7 @@ function RequestsPage() {
               <StatusBadge status={request.status} />
             </div>
             <div className="mt-3 flex items-center justify-between text-sm">
-              <span className="font-semibold text-primary">{formatPrice(request.proposed_price)}</span>
+              <span className="font-semibold text-foreground">{formatPrice(request.proposed_price)}</span>
               <span className="text-muted-foreground">
                 {Math.round((request.duration_minutes ?? 0) / 60)} h ·{" "}
                 {new Date(request.created_at).toLocaleDateString("fr-FR")}

@@ -179,7 +179,7 @@ function NewRequestPage() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <Label>Durée estimée</Label>
-            <span className="text-sm font-semibold text-primary">
+            <span className="text-sm font-semibold text-foreground">
               {Math.floor(duration / 60)} h {duration % 60 ? `${duration % 60} min` : ""}
             </span>
           </div>
@@ -254,7 +254,7 @@ function NewRequestPage() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <Label>Rayon de recherche</Label>
-            <span className="text-sm font-semibold text-primary">{radius} km</span>
+            <span className="text-sm font-semibold text-foreground">{radius} km</span>
           </div>
           <Slider
             value={[radius]}
@@ -268,7 +268,7 @@ function NewRequestPage() {
         <div className="rounded-3xl bg-surface p-5">
           <div className="flex items-center justify-between">
             <p className="text-sm font-semibold">Prix recommandé</p>
-            <p className="font-display text-lg font-bold text-primary">
+            <p className="font-display text-lg font-bold text-foreground">
               {quote.isLoading ? "…" : quote.data ? formatPrice(quote.data.price) : "—"}
             </p>
           </div>

@@ -58,7 +58,7 @@ function ClientHome() {
 
   return (
     <div className="mt-6 space-y-8">
-      <div className="rounded-3xl bg-gradient-brand p-5 text-primary-foreground shadow-float">
+      <div className="rounded-3xl bg-gradient-brand p-5 text-ink-foreground shadow-float">
         <p className="font-display text-lg font-semibold">Besoin d'un service maintenant ?</p>
         <p className="mt-1 text-sm opacity-90">
           Décrivez votre demande, proposez votre prix et recevez des offres autour de vous.
@@ -82,7 +82,7 @@ function ClientHome() {
                   search={{ category: category.id }}
                   className="flex flex-col items-center gap-2 rounded-2xl bg-card p-3 text-center shadow-card transition-transform active:scale-95"
                 >
-                  <span className="flex size-11 items-center justify-center rounded-xl bg-surface text-primary">
+                  <span className="flex size-11 items-center justify-center rounded-xl bg-surface text-foreground">
                     <CategoryIcon name={category.icon} />
                   </span>
                   <span className="text-[11px] font-semibold leading-tight">{category.name}</span>
@@ -94,7 +94,7 @@ function ClientHome() {
       <section>
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold">Mes demandes</h2>
-          <Link to="/demandes" className="text-sm font-medium text-primary">
+          <Link to="/demandes" className="text-sm font-medium text-foreground">
             Tout voir
           </Link>
         </div>

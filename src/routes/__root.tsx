@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../hooks/useAuth";
 import { AppModeProvider } from "../hooks/useAppMode";
 import { Toaster } from "../components/ui/sonner";
+import { SplashScreen } from "../components/SplashScreen";
 import { supabase } from "../integrations/supabase/client";
 
 function NotFoundComponent() {
@@ -146,6 +147,7 @@ function RootComponent() {
         <AppModeProvider>
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
+          <SplashScreen />
           <Toaster />
         </AppModeProvider>
       </AuthProvider>
