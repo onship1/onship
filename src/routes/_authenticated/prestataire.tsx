@@ -137,8 +137,14 @@ function ProviderPage() {
             className="mt-6 space-y-5"
             onSubmit={(event) => {
               event.preventDefault();
-              if (title.trim().length < 2) return toast.error("Indiquez votre métier");
-              if (selected.length === 0) return toast.error("Choisissez au moins une catégorie");
+              if (title.trim().length < 2) {
+                toast.error("Indiquez votre métier");
+                return;
+              }
+              if (selected.length === 0) {
+                toast.error("Choisissez au moins une catégorie");
+                return;
+              }
               save.mutate();
             }}
           >
