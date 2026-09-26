@@ -92,7 +92,7 @@ function AuthPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="bg-gradient-brand px-6 pb-12 pt-8 text-primary-foreground">
+      <div className="bg-gradient-brand px-6 pb-12 pt-8 text-ink-foreground">
         <div className="app-shell px-0">
           <Link to="/" className="inline-flex items-center gap-2 text-sm opacity-90">
             <ArrowLeft className="size-4" /> Retour

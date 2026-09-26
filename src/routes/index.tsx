@@ -66,7 +66,7 @@ function Landing() {
         <div className="mt-4 space-y-3">
           {steps.map((step) => (
             <div key={step.title} className="flex gap-4 rounded-2xl bg-card p-4 shadow-card">
-              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-surface text-primary">
+              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-surface text-foreground">
                 <step.icon className="size-5" />
               </div>
               <div>

@@ -33,7 +33,7 @@ export function BottomNav() {
               to={item.to}
               className={cn(
                 "flex flex-1 flex-col items-center gap-1 rounded-xl px-2 py-1.5 text-[11px] font-medium transition-colors",
-                active ? "text-primary" : "text-muted-foreground hover:text-foreground",
+                active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >
               <Icon className={cn("size-5", active && "stroke-[2.4]")} />
