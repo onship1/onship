@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, ListOrdered, PlusCircle, User, Briefcase } from "lucide-react";
+import { Home, ListOrdered, PlusCircle, User, Briefcase, Radar, Route as RouteIcon, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppMode } from "@/hooks/useAppMode";
 
@@ -13,10 +13,15 @@ export function BottomNav() {
           { to: "/accueil", label: "Accueil", icon: Home },
           { to: "/demandes", label: "Demandes", icon: ListOrdered },
           { to: "/demandes/nouvelle", label: "Nouvelle", icon: PlusCircle },
+          { to: "/missions", label: "Missions", icon: RouteIcon },
+          { to: "/notifications", label: "Alertes", icon: Bell },
           { to: "/profil", label: "Profil", icon: User },
         ]
       : [
           { to: "/accueil", label: "Accueil", icon: Home },
+          { to: "/opportunites", label: "Demandes", icon: Radar },
+          { to: "/missions", label: "Missions", icon: RouteIcon },
+          { to: "/notifications", label: "Alertes", icon: Bell },
           { to: "/prestataire", label: "Activité", icon: Briefcase },
           { to: "/profil", label: "Profil", icon: User },
         ];

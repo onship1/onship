@@ -1342,6 +1342,7 @@ export type Database = {
         Returns: unknown
       }
       _st_within: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean }
+      accept_offer: { Args: { _offer_id: string }; Returns: string }
       addauth: { Args: { "": string }; Returns: boolean }
       addgeometrycolumn:
         | {
@@ -1380,6 +1381,7 @@ export type Database = {
             }
             Returns: string
           }
+      cancel_request: { Args: { _request_id: string }; Returns: undefined }
       disablelongtransactions: { Args: never; Returns: string }
       dropgeometrycolumn:
         | {
@@ -1511,7 +1513,64 @@ export type Database = {
         Returns: boolean
       }
       geomfromewkt: { Args: { "": string }; Returns: unknown }
+      get_my_missions: {
+        Args: never
+        Returns: {
+          address: string
+          agreed_price: number
+          category_name: string
+          created_at: string
+          currency: string
+          is_provider: boolean
+          mission_id: string
+          other_name: string
+          other_phone: string
+          request_id: string
+          request_latitude: number
+          request_longitude: number
+          status: Database["public"]["Enums"]["mission_status"]
+          title: string
+        }[]
+      }
+      get_provider_feed: {
+        Args: never
+        Returns: {
+          address: string
+          category_name: string
+          created_at: string
+          currency: string
+          description: string
+          duration_minutes: number
+          my_offer_price: number
+          my_offer_status: Database["public"]["Enums"]["offer_status"]
+          proposed_price: number
+          recommended_price: number
+          request_id: string
+          request_status: Database["public"]["Enums"]["request_status"]
+          scheduled_at: string
+          title: string
+          urgency: Database["public"]["Enums"]["urgency_type"]
+        }[]
+      }
       get_provider_id: { Args: never; Returns: string }
+      get_request_offers: {
+        Args: { _request_id: string }
+        Returns: {
+          average_rating: number
+          completed_missions: number
+          created_at: string
+          currency: string
+          estimated_arrival_minutes: number
+          message: string
+          offer_id: string
+          price: number
+          professional_title: string
+          provider_name: string
+          status: Database["public"]["Enums"]["offer_status"]
+          total_reviews: number
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }[]
+      }
       gettransactionid: { Args: never; Returns: unknown }
       is_admin: { Args: never; Returns: boolean }
       longtransactionsenabled: { Args: never; Returns: boolean }
@@ -2136,7 +2195,23 @@ export type Database = {
         Args: { geom: unknown; move: number; wrap: number }
         Returns: unknown
       }
+      submit_offer: {
+        Args: {
+          _eta: number
+          _message: string
+          _price: number
+          _request_id: string
+        }
+        Returns: string
+      }
       unlockrows: { Args: { "": string }; Returns: number }
+      update_mission_status: {
+        Args: {
+          _mission_id: string
+          _status: Database["public"]["Enums"]["mission_status"]
+        }
+        Returns: undefined
+      }
       updategeometrysrid: {
         Args: {
           catalogn_name: string
