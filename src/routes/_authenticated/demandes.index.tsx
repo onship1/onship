@@ -60,7 +60,12 @@ function RequestsPage() {
         )}
 
         {requests.data?.map((request) => (
-          <div key={request.id} className="rounded-2xl bg-card p-4 shadow-card">
+          <Link
+            key={request.id}
+            to="/demandes/$id"
+            params={{ id: request.id }}
+            className="block rounded-2xl bg-card p-4 shadow-card"
+          >
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="font-semibold">{request.title}</p>
