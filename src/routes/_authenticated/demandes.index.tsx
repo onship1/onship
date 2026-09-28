@@ -85,7 +85,7 @@ function RequestsPage() {
             {request.address && (
               <p className="mt-2 truncate text-xs text-muted-foreground">{request.address}</p>
             )}
-          </div>
+          </Link>
         ))}
       </div>
     </div>
