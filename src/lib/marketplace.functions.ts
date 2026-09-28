@@ -138,12 +138,10 @@ export const updateMyLocation = createServerFn({ method: "POST" })
       .parse(i),
   )
   .handler(async ({ data, context }) => {
-    const { error } = await context.supabase.rpc("update_my_location", {
-      _lat: data.lat,
-      _lng: data.lng,
-      _heading: data.heading ?? undefined,
-      _speed: data.speed ?? undefined,
-    });
+    const args: { _lat: number; _lng: number; _heading?: number; _speed?: number } = { _lat: data.lat, _lng: data.lng };
+    if (data.heading != null) args._heading = data.heading;
+    if (data.speed != null) args._speed = data.speed;
+    const { error } = await context.supabase.rpc("update_my_location", args);
     fail(error);
     return { ok: true };
   });

@@ -196,7 +196,10 @@ function Chat({ conversationId }: { conversationId: string }) {
       .insert({ conversation_id: conversationId, sender_id: user.id, message: body.slice(0, 1000) })
       .select("id, sender_id, message, created_at")
       .single();
-    if (error) return toast.error("Message non envoyé");
+    if (error) {
+      toast.error("Message non envoyé");
+      return;
+    }
     setMessages((cur) => (cur.some((x) => x.id === data.id) ? cur : [...cur, data]));
   };
 
