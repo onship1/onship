@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { BottomNav } from "@/components/BottomNav";
+import { useProviderLiveLocation, useRealtimeSync } from "@/hooks/useLiveSync";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -13,6 +14,8 @@ export const Route = createFileRoute("/_authenticated")({
 });
 
 function AppLayout() {
+  useRealtimeSync();
+  useProviderLiveLocation();
   return (
     <div className="min-h-screen bg-background pb-24">
       <Outlet />

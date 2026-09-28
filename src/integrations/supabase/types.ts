@@ -1381,6 +1381,27 @@ export type Database = {
             }
             Returns: string
           }
+      admin_list_providers: {
+        Args: never
+        Returns: {
+          average_rating: number
+          completed_missions: number
+          created_at: string
+          name: string
+          phone: string
+          professional_title: string
+          provider_id: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }[]
+      }
+      admin_set_verification: {
+        Args: {
+          _provider_id: string
+          _status: Database["public"]["Enums"]["verification_status"]
+        }
+        Returns: undefined
+      }
+      admin_stats: { Args: never; Returns: Json }
       cancel_request: { Args: { _request_id: string }; Returns: undefined }
       disablelongtransactions: { Args: never; Returns: string }
       dropgeometrycolumn:
@@ -1513,6 +1534,24 @@ export type Database = {
         Returns: boolean
       }
       geomfromewkt: { Args: { "": string }; Returns: unknown }
+      get_mission_detail: {
+        Args: { _mission_id: string }
+        Returns: {
+          address: string
+          already_rated: boolean
+          conversation_id: string
+          is_provider: boolean
+          mission_id: string
+          other_name: string
+          provider_latitude: number
+          provider_longitude: number
+          provider_updated_at: string
+          request_latitude: number
+          request_longitude: number
+          status: Database["public"]["Enums"]["mission_status"]
+          title: string
+        }[]
+      }
       get_my_missions: {
         Args: never
         Returns: {
@@ -1614,6 +1653,10 @@ export type Database = {
       }
       postgis_version: { Args: never; Returns: string }
       postgis_wagyu_version: { Args: never; Returns: string }
+      rate_mission: {
+        Args: { _comment: string; _mission_id: string; _rating: number }
+        Returns: undefined
+      }
       st_3dclosestpoint: {
         Args: { geom1: unknown; geom2: unknown }
         Returns: unknown
@@ -2210,6 +2253,10 @@ export type Database = {
           _mission_id: string
           _status: Database["public"]["Enums"]["mission_status"]
         }
+        Returns: undefined
+      }
+      update_my_location: {
+        Args: { _heading?: number; _lat: number; _lng: number; _speed?: number }
         Returns: undefined
       }
       updategeometrysrid: {

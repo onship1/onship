@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAccueilRouteImport } from './routes/_authenticated/accueil'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedCreditsRouteImport } from './routes/_authenticated/credits'
 import { Route as AuthenticatedMissionsRouteImport } from './routes/_authenticated/missions'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedOpportunitesRouteImport } from './routes/_authenticated/opportunites'
@@ -21,6 +23,7 @@ import { Route as AuthenticatedProfilRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedDemandesIndexRouteImport } from './routes/_authenticated/demandes.index'
 import { Route as AuthenticatedDemandesIdRouteImport } from './routes/_authenticated/demandes.$id'
 import { Route as AuthenticatedDemandesNouvelleRouteImport } from './routes/_authenticated/demandes.nouvelle'
+import { Route as AuthenticatedMissionsIdRouteImport } from './routes/_authenticated/missions.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -39,6 +42,16 @@ const AuthRoute = AuthRouteImport.update({
 const AuthenticatedAccueilRoute = AuthenticatedAccueilRouteImport.update({
   id: '/accueil',
   path: '/accueil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCreditsRoute = AuthenticatedCreditsRouteImport.update({
+  id: '/credits',
+  path: '/credits',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMissionsRoute = AuthenticatedMissionsRouteImport.update({
@@ -86,31 +99,42 @@ const AuthenticatedDemandesNouvelleRoute =
     path: '/demandes/nouvelle',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedMissionsIdRoute = AuthenticatedMissionsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedMissionsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/accueil': typeof AuthenticatedAccueilRoute
-  '/missions': typeof AuthenticatedMissionsRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/credits': typeof AuthenticatedCreditsRoute
+  '/missions': typeof AuthenticatedMissionsRouteWithChildren
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/opportunites': typeof AuthenticatedOpportunitesRoute
   '/prestataire': typeof AuthenticatedPrestataireRoute
   '/profil': typeof AuthenticatedProfilRoute
   '/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
+  '/missions/$id': typeof AuthenticatedMissionsIdRoute
   '/demandes/': typeof AuthenticatedDemandesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/accueil': typeof AuthenticatedAccueilRoute
-  '/missions': typeof AuthenticatedMissionsRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/credits': typeof AuthenticatedCreditsRoute
+  '/missions': typeof AuthenticatedMissionsRouteWithChildren
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/opportunites': typeof AuthenticatedOpportunitesRoute
   '/prestataire': typeof AuthenticatedPrestataireRoute
   '/profil': typeof AuthenticatedProfilRoute
   '/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
+  '/missions/$id': typeof AuthenticatedMissionsIdRoute
   '/demandes': typeof AuthenticatedDemandesIndexRoute
 }
 export interface FileRoutesById {
@@ -119,13 +143,16 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/accueil': typeof AuthenticatedAccueilRoute
-  '/_authenticated/missions': typeof AuthenticatedMissionsRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/credits': typeof AuthenticatedCreditsRoute
+  '/_authenticated/missions': typeof AuthenticatedMissionsRouteWithChildren
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/opportunites': typeof AuthenticatedOpportunitesRoute
   '/_authenticated/prestataire': typeof AuthenticatedPrestataireRoute
   '/_authenticated/profil': typeof AuthenticatedProfilRoute
   '/_authenticated/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/_authenticated/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
+  '/_authenticated/missions/$id': typeof AuthenticatedMissionsIdRoute
   '/_authenticated/demandes/': typeof AuthenticatedDemandesIndexRoute
 }
 export interface FileRouteTypes {
@@ -134,6 +161,8 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/accueil'
+    | '/admin'
+    | '/credits'
     | '/missions'
     | '/notifications'
     | '/opportunites'
@@ -141,12 +170,15 @@ export interface FileRouteTypes {
     | '/profil'
     | '/demandes/$id'
     | '/demandes/nouvelle'
+    | '/missions/$id'
     | '/demandes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/accueil'
+    | '/admin'
+    | '/credits'
     | '/missions'
     | '/notifications'
     | '/opportunites'
@@ -154,6 +186,7 @@ export interface FileRouteTypes {
     | '/profil'
     | '/demandes/$id'
     | '/demandes/nouvelle'
+    | '/missions/$id'
     | '/demandes'
   id:
     | '__root__'
@@ -161,6 +194,8 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/accueil'
+    | '/_authenticated/admin'
+    | '/_authenticated/credits'
     | '/_authenticated/missions'
     | '/_authenticated/notifications'
     | '/_authenticated/opportunites'
@@ -168,6 +203,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profil'
     | '/_authenticated/demandes/$id'
     | '/_authenticated/demandes/nouvelle'
+    | '/_authenticated/missions/$id'
     | '/_authenticated/demandes/'
   fileRoutesById: FileRoutesById
 }
@@ -205,6 +241,20 @@ declare module '@tanstack/react-router' {
       path: '/accueil'
       fullPath: '/accueil'
       preLoaderRoute: typeof AuthenticatedAccueilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/credits': {
+      id: '/_authenticated/credits'
+      path: '/credits'
+      fullPath: '/credits'
+      preLoaderRoute: typeof AuthenticatedCreditsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/missions': {
@@ -263,12 +313,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDemandesNouvelleRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/missions/$id': {
+      id: '/_authenticated/missions/$id'
+      path: '/$id'
+      fullPath: '/missions/$id'
+      preLoaderRoute: typeof AuthenticatedMissionsIdRouteImport
+      parentRoute: typeof AuthenticatedMissionsRoute
+    }
   }
 }
 
+interface AuthenticatedMissionsRouteChildren {
+  AuthenticatedMissionsIdRoute: typeof AuthenticatedMissionsIdRoute
+}
+
+const AuthenticatedMissionsRouteChildren: AuthenticatedMissionsRouteChildren = {
+  AuthenticatedMissionsIdRoute: AuthenticatedMissionsIdRoute,
+}
+
+const AuthenticatedMissionsRouteWithChildren =
+  AuthenticatedMissionsRoute._addFileChildren(
+    AuthenticatedMissionsRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccueilRoute: typeof AuthenticatedAccueilRoute
-  AuthenticatedMissionsRoute: typeof AuthenticatedMissionsRoute
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedCreditsRoute: typeof AuthenticatedCreditsRoute
+  AuthenticatedMissionsRoute: typeof AuthenticatedMissionsRouteWithChildren
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOpportunitesRoute: typeof AuthenticatedOpportunitesRoute
   AuthenticatedPrestataireRoute: typeof AuthenticatedPrestataireRoute
@@ -280,7 +352,9 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccueilRoute: AuthenticatedAccueilRoute,
-  AuthenticatedMissionsRoute: AuthenticatedMissionsRoute,
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedCreditsRoute: AuthenticatedCreditsRoute,
+  AuthenticatedMissionsRoute: AuthenticatedMissionsRouteWithChildren,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOpportunitesRoute: AuthenticatedOpportunitesRoute,
   AuthenticatedPrestataireRoute: AuthenticatedPrestataireRoute,
