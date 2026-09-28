@@ -13,9 +13,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAccueilRouteImport } from './routes/_authenticated/accueil'
+import { Route as AuthenticatedMissionsRouteImport } from './routes/_authenticated/missions'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedOpportunitesRouteImport } from './routes/_authenticated/opportunites'
 import { Route as AuthenticatedPrestataireRouteImport } from './routes/_authenticated/prestataire'
 import { Route as AuthenticatedProfilRouteImport } from './routes/_authenticated/profil'
 import { Route as AuthenticatedDemandesIndexRouteImport } from './routes/_authenticated/demandes.index'
+import { Route as AuthenticatedDemandesIdRouteImport } from './routes/_authenticated/demandes.$id'
 import { Route as AuthenticatedDemandesNouvelleRouteImport } from './routes/_authenticated/demandes.nouvelle'
 
 const IndexRoute = IndexRouteImport.update({
@@ -37,6 +41,23 @@ const AuthenticatedAccueilRoute = AuthenticatedAccueilRouteImport.update({
   path: '/accueil',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMissionsRoute = AuthenticatedMissionsRouteImport.update({
+  id: '/missions',
+  path: '/missions',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedOpportunitesRoute =
+  AuthenticatedOpportunitesRouteImport.update({
+    id: '/opportunites',
+    path: '/opportunites',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPrestataireRoute =
   AuthenticatedPrestataireRouteImport.update({
     id: '/prestataire',
@@ -54,6 +75,11 @@ const AuthenticatedDemandesIndexRoute =
     path: '/demandes/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDemandesIdRoute = AuthenticatedDemandesIdRouteImport.update({
+  id: '/demandes/$id',
+  path: '/demandes/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDemandesNouvelleRoute =
   AuthenticatedDemandesNouvelleRouteImport.update({
     id: '/demandes/nouvelle',
@@ -65,8 +91,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/accueil': typeof AuthenticatedAccueilRoute
+  '/missions': typeof AuthenticatedMissionsRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/opportunites': typeof AuthenticatedOpportunitesRoute
   '/prestataire': typeof AuthenticatedPrestataireRoute
   '/profil': typeof AuthenticatedProfilRoute
+  '/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
   '/demandes/': typeof AuthenticatedDemandesIndexRoute
 }
@@ -74,8 +104,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/accueil': typeof AuthenticatedAccueilRoute
+  '/missions': typeof AuthenticatedMissionsRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/opportunites': typeof AuthenticatedOpportunitesRoute
   '/prestataire': typeof AuthenticatedPrestataireRoute
   '/profil': typeof AuthenticatedProfilRoute
+  '/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
   '/demandes': typeof AuthenticatedDemandesIndexRoute
 }
@@ -85,8 +119,12 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/accueil': typeof AuthenticatedAccueilRoute
+  '/_authenticated/missions': typeof AuthenticatedMissionsRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/opportunites': typeof AuthenticatedOpportunitesRoute
   '/_authenticated/prestataire': typeof AuthenticatedPrestataireRoute
   '/_authenticated/profil': typeof AuthenticatedProfilRoute
+  '/_authenticated/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/_authenticated/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
   '/_authenticated/demandes/': typeof AuthenticatedDemandesIndexRoute
 }
@@ -96,8 +134,12 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/accueil'
+    | '/missions'
+    | '/notifications'
+    | '/opportunites'
     | '/prestataire'
     | '/profil'
+    | '/demandes/$id'
     | '/demandes/nouvelle'
     | '/demandes/'
   fileRoutesByTo: FileRoutesByTo
@@ -105,8 +147,12 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/accueil'
+    | '/missions'
+    | '/notifications'
+    | '/opportunites'
     | '/prestataire'
     | '/profil'
+    | '/demandes/$id'
     | '/demandes/nouvelle'
     | '/demandes'
   id:
@@ -115,8 +161,12 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/accueil'
+    | '/_authenticated/missions'
+    | '/_authenticated/notifications'
+    | '/_authenticated/opportunites'
     | '/_authenticated/prestataire'
     | '/_authenticated/profil'
+    | '/_authenticated/demandes/$id'
     | '/_authenticated/demandes/nouvelle'
     | '/_authenticated/demandes/'
   fileRoutesById: FileRoutesById
@@ -157,6 +207,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccueilRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/missions': {
+      id: '/_authenticated/missions'
+      path: '/missions'
+      fullPath: '/missions'
+      preLoaderRoute: typeof AuthenticatedMissionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/opportunites': {
+      id: '/_authenticated/opportunites'
+      path: '/opportunites'
+      fullPath: '/opportunites'
+      preLoaderRoute: typeof AuthenticatedOpportunitesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/prestataire': {
       id: '/_authenticated/prestataire'
       path: '/prestataire'
@@ -178,6 +249,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDemandesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/demandes/$id': {
+      id: '/_authenticated/demandes/$id'
+      path: '/demandes/$id'
+      fullPath: '/demandes/$id'
+      preLoaderRoute: typeof AuthenticatedDemandesIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/demandes/nouvelle': {
       id: '/_authenticated/demandes/nouvelle'
       path: '/demandes/nouvelle'
@@ -190,16 +268,24 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccueilRoute: typeof AuthenticatedAccueilRoute
+  AuthenticatedMissionsRoute: typeof AuthenticatedMissionsRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedOpportunitesRoute: typeof AuthenticatedOpportunitesRoute
   AuthenticatedPrestataireRoute: typeof AuthenticatedPrestataireRoute
   AuthenticatedProfilRoute: typeof AuthenticatedProfilRoute
+  AuthenticatedDemandesIdRoute: typeof AuthenticatedDemandesIdRoute
   AuthenticatedDemandesNouvelleRoute: typeof AuthenticatedDemandesNouvelleRoute
   AuthenticatedDemandesIndexRoute: typeof AuthenticatedDemandesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccueilRoute: AuthenticatedAccueilRoute,
+  AuthenticatedMissionsRoute: AuthenticatedMissionsRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedOpportunitesRoute: AuthenticatedOpportunitesRoute,
   AuthenticatedPrestataireRoute: AuthenticatedPrestataireRoute,
   AuthenticatedProfilRoute: AuthenticatedProfilRoute,
+  AuthenticatedDemandesIdRoute: AuthenticatedDemandesIdRoute,
   AuthenticatedDemandesNouvelleRoute: AuthenticatedDemandesNouvelleRoute,
   AuthenticatedDemandesIndexRoute: AuthenticatedDemandesIndexRoute,
 }
