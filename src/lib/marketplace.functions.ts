@@ -123,3 +123,98 @@ export const markNotificationsRead = createServerFn({ method: "POST" })
     fail(error);
     return { ok: true };
   });
+
+// ---------- Géolocalisation en direct ----------
+export const updateMyLocation = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z
+      .object({
+        lat: z.number().min(-90).max(90),
+        lng: z.number().min(-180).max(180),
+        heading: z.number().nullable().optional(),
+        speed: z.number().nullable().optional(),
+      })
+      .parse(i),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.rpc("update_my_location", {
+      _lat: data.lat,
+      _lng: data.lng,
+      _heading: data.heading ?? undefined,
+      _speed: data.speed ?? undefined,
+    });
+    fail(error);
+    return { ok: true };
+  });
+
+// ---------- Détail mission (suivi + chat + notation) ----------
+export const getMissionDetail = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => id.parse(i))
+  .handler(async ({ data, context }) => {
+    const { data: rows, error } = await context.supabase.rpc("get_mission_detail", { _mission_id: data.id });
+    fail(error);
+    const mission = rows?.[0];
+    if (!mission) throw new Error("Mission introuvable");
+    return mission;
+  });
+
+export const rateMission = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({ id: z.string().uuid(), rating: z.number().int().min(1).max(5), comment: z.string().trim().max(500).default("") }).parse(i),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.rpc("rate_mission", {
+      _mission_id: data.id,
+      _rating: data.rating,
+      _comment: data.comment,
+    });
+    fail(error);
+    return { ok: true };
+  });
+
+// ---------- Crédits ----------
+export const getWalletHistory = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase
+      .from("credit_transactions")
+      .select("id, type, amount, balance_after, description, created_at")
+      .order("created_at", { ascending: false })
+      .limit(50);
+    fail(error);
+    return data ?? [];
+  });
+
+// ---------- Administration ----------
+export const getIsAdmin = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data } = await context.supabase.rpc("is_admin");
+    return { isAdmin: data === true };
+  });
+
+export const getAdminOverview = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const [stats, providers] = await Promise.all([
+      context.supabase.rpc("admin_stats"),
+      context.supabase.rpc("admin_list_providers"),
+    ]);
+    fail(stats.error);
+    fail(providers.error);
+    return { stats: stats.data as Record<string, number>, providers: providers.data ?? [] };
+  });
+
+export const setProviderVerification = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({ id: z.string().uuid(), status: z.enum(["pending", "under_review", "verified", "rejected", "suspended"]) }).parse(i),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.rpc("admin_set_verification", { _provider_id: data.id, _status: data.status });
+    fail(error);
+    return { ok: true };
+  });
