@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getWalletHistory } from "@/lib/marketplace.functions";
 import { getMyProviderProfile } from "@/lib/profile.functions";
@@ -26,21 +27,24 @@ const TYPE_FR: Record<string, string> = {
 };
 
 function CreditsPage() {
+  const navigate = useNavigate();
   const { mode } = useAppMode();
   const provider = useQuery({ queryKey: ["provider-profile"], queryFn: () => getMyProviderProfile() });
   const history = useQuery({ queryKey: ["wallet-history"], queryFn: () => getWalletHistory() });
   const wallet = provider.data?.wallet;
 
+  // Page réservée aux prestataires : un client est renvoyé vers son profil.
+  useEffect(() => {
+    if (mode === "client") {
+      navigate({ to: "/profil", replace: true });
+    }
+  }, [mode, navigate]);
+
   if (mode !== "provider") {
-    return (
-      <div className="app-shell pt-6">
-        <h1 className="text-2xl font-bold">Mes crédits</h1>
-        <p className="mt-5 rounded-3xl bg-surface p-6 text-sm text-muted-foreground">
-          Les crédits sont réservés aux prestataires. Passez en mode Prestataire depuis votre profil.
-        </p>
-      </div>
-    );
+    return <div className="app-shell" />;
   }
+
+
 
 
   return (
