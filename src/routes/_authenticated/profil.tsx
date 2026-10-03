@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { getMyProfile, updateMyProfile } from "@/lib/profile.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { ModeSwitch } from "@/components/ModeSwitch";
+import { useAppMode } from "@/hooks/useAppMode";
+import { getIsAdmin } from "@/lib/marketplace.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,6 +33,8 @@ function ProfilePage() {
   const queryClient = useQueryClient();
   const { user, signOut } = useAuth();
   const profile = useQuery({ queryKey: ["profile"], queryFn: () => getMyProfile() });
+  const { mode } = useAppMode();
+  const isAdmin = useQuery({ queryKey: ["is-admin"], queryFn: () => getIsAdmin(), staleTime: 5 * 60_000 });
 
   const [form, setForm] = useState({ first_name: "", last_name: "", phone: "" });
 
@@ -119,18 +123,24 @@ function ProfilePage() {
         </form>
       )}
 
-      <div className="mt-8 space-y-2">
-        <Button asChild variant="outline" className="h-12 w-full rounded-full">
-          <Link to="/credits">
-            <Wallet className="mr-2 size-4" /> Mes crédits
-          </Link>
-        </Button>
-        <Button asChild variant="outline" className="h-12 w-full rounded-full">
-          <Link to="/admin">
-            <ShieldCheck className="mr-2 size-4" /> Administration
-          </Link>
-        </Button>
-      </div>
+      {(mode === "provider" || isAdmin.data?.isAdmin) && (
+        <div className="mt-8 space-y-2">
+          {mode === "provider" && (
+            <Button asChild variant="outline" className="h-12 w-full rounded-full">
+              <Link to="/credits">
+                <Wallet className="mr-2 size-4" /> Mes crédits
+              </Link>
+            </Button>
+          )}
+          {isAdmin.data?.isAdmin && (
+            <Button asChild variant="outline" className="h-12 w-full rounded-full">
+              <Link to="/admin">
+                <ShieldCheck className="mr-2 size-4" /> Administration
+              </Link>
+            </Button>
+          )}
+        </div>
+      )}
 
       <Button
         variant="outline"
