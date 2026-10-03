@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getWalletHistory } from "@/lib/marketplace.functions";
 import { getMyProviderProfile } from "@/lib/profile.functions";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppMode } from "@/hooks/useAppMode";
 
 export const Route = createFileRoute("/_authenticated/credits")({
   head: () => ({
@@ -25,9 +26,22 @@ const TYPE_FR: Record<string, string> = {
 };
 
 function CreditsPage() {
+  const { mode } = useAppMode();
   const provider = useQuery({ queryKey: ["provider-profile"], queryFn: () => getMyProviderProfile() });
   const history = useQuery({ queryKey: ["wallet-history"], queryFn: () => getWalletHistory() });
   const wallet = provider.data?.wallet;
+
+  if (mode !== "provider") {
+    return (
+      <div className="app-shell pt-6">
+        <h1 className="text-2xl font-bold">Mes crédits</h1>
+        <p className="mt-5 rounded-3xl bg-surface p-6 text-sm text-muted-foreground">
+          Les crédits sont réservés aux prestataires. Passez en mode Prestataire depuis votre profil.
+        </p>
+      </div>
+    );
+  }
+
 
   return (
     <div className="app-shell pt-6">
