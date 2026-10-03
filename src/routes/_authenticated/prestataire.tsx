@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, LocateFixed, Wallet } from "lucide-react";
 import { toast } from "sonner";
@@ -118,12 +118,16 @@ function ProviderPage() {
         <>
           {provider.data && (
             <div className="mt-5 grid grid-cols-2 gap-3">
-              <div className="rounded-2xl bg-card p-4 shadow-card">
+              <Link
+                to="/credits"
+                className="block rounded-2xl bg-card p-4 shadow-card transition-transform active:scale-95"
+              >
                 <p className="flex items-center gap-2 text-xs text-muted-foreground">
                   <Wallet className="size-4" /> Crédits
                 </p>
                 <p className="font-display text-2xl font-bold">{wallet?.balance ?? 0}</p>
-              </div>
+                <p className="mt-1 text-[11px] font-medium text-primary">Voir l'historique →</p>
+              </Link>
               <div className="rounded-2xl bg-card p-4 shadow-card">
                 <p className="text-xs text-muted-foreground">Vérification</p>
                 <Badge className="mt-2" variant="secondary">
