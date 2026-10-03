@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
@@ -81,6 +81,9 @@ function MissionsPage() {
               )}
 
               <div className="mt-3 flex flex-wrap gap-2">
+                <Button asChild size="sm" variant="secondary" className="rounded-full">
+                  <Link to="/missions/$id" params={{ id: m.mission_id }}>Détails</Link>
+                </Button>
                 {m.other_phone && (
                   <Button asChild size="sm" variant="outline" className="rounded-full">
                     <a href={`tel:${m.other_phone}`}><Phone className="mr-1 size-4" /> Appeler</a>

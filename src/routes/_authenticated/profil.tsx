@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { LogOut, Loader2 } from "lucide-react";
+import { LogOut, Loader2, Wallet, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { getMyProfile, updateMyProfile } from "@/lib/profile.functions";
 import { useAuth } from "@/hooks/useAuth";
@@ -119,9 +119,22 @@ function ProfilePage() {
         </form>
       )}
 
+      <div className="mt-8 space-y-2">
+        <Button asChild variant="outline" className="h-12 w-full rounded-full">
+          <Link to="/credits">
+            <Wallet className="mr-2 size-4" /> Mes crédits
+          </Link>
+        </Button>
+        <Button asChild variant="outline" className="h-12 w-full rounded-full">
+          <Link to="/admin">
+            <ShieldCheck className="mr-2 size-4" /> Administration
+          </Link>
+        </Button>
+      </div>
+
       <Button
         variant="outline"
-        className="mt-8 h-12 w-full rounded-full"
+        className="mt-4 h-12 w-full rounded-full"
         onClick={async () => {
           await signOut();
           navigate({ to: "/" });
